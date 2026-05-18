@@ -1,0 +1,426 @@
+/* General Body and Font Styling */
+body {
+    margin: 0;
+    font-family: 'Calibri', sans-serif;
+    color: #E0E0E0; /* Default text color for dark themes */
+    overflow: hidden; /* Hide scrollbars, as effects will cover full screen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #1a1a1a; /* Fallback for background */
+    position: relative; /* For positioning absolute children */
+}
+
+/* Base Theme Variables (Dark Theme - Default) */
+:root {
+    --primary-color: #FFD700; /* Gold/Yellow - JARVIS-like accent */
+    --secondary-color: #B8860B; /* DarkGoldenrod - mixed brown */
+    --background-start: #362602; /* Deep brown-yellow for gradient start */
+    --background-end: #0c0800; /* Darker brown-yellow for gradient end */
+    --text-color: #E0E0E0;
+    --ai-message-bg: rgba(50, 50, 50, 0.8);
+    --user-message-bg: rgba(80, 80, 80, 0.8);
+    --input-bg: rgba(40, 40, 40, 0.8);
+    --border-color: rgba(255, 215, 0, 0.5);
+    --button-bg: rgba(255, 215, 0, 0.2);
+    --button-hover-bg: rgba(255, 215, 0, 0.4);
+    --hacker-effect-color: rgba(255, 215, 0, 0.6);
+    --line-effect-color: rgba(255, 215, 0, 0.3);
+}
+
+/* Light Theme */
+body.light-theme {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --background-start: #f0f8ff;
+    --background-end: #ffffff;
+    --text-color: #333333;
+    --ai-message-bg: rgba(240, 240, 240, 0.9);
+    --user-message-bg: rgba(220, 220, 220, 0.9);
+    --input-bg: rgba(255, 255, 255, 0.9);
+    --border-color: rgba(0, 123, 255, 0.5);
+    --button-bg: rgba(0, 123, 255, 0.1);
+    --button-hover-bg: rgba(0, 123, 255, 0.2);
+    --hacker-effect-color: rgba(0, 123, 255, 0.6);
+    --line-effect-color: rgba(0, 123, 255, 0.3);
+}
+
+/* Moon Theme */
+body.moon-theme {
+    --primary-color: #9370DB; /* MediumPurple */
+    --secondary-color: #8A2BE2; /* BlueViolet */
+    --background-start: #191970; /* MidnightBlue */
+    --background-end: #483D8B; /* DarkSlateBlue */
+    --text-color: #E6E6FA; /* Lavender */
+    --ai-message-bg: rgba(30, 30, 70, 0.8);
+    --user-message-bg: rgba(60, 60, 100, 0.8);
+    --input-bg: rgba(20, 20, 60, 0.8);
+    --border-color: rgba(147, 112, 219, 0.6);
+    --button-bg: rgba(147, 112, 219, 0.2);
+    --button-hover-bg: rgba(147, 112, 219, 0.4);
+    --hacker-effect-color: rgba(147, 112, 219, 0.6);
+    --line-effect-color: rgba(147, 112, 219, 0.3);
+}
+
+/* Background Animations and Overlays */
+#gradient-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3; /* Below everything else */
+    background: radial-gradient(circle at top left, var(--background-start) 0%, var(--background-end) 100%);
+    animation: backgroundShift 20s infinite alternate; /* Will be refined in JS */
+}
+
+@keyframes backgroundShift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+.hacker-effect-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* Below content, above main background */
+    pointer-events: none; /* Allows clicks to pass through */
+    overflow: hidden; /* Contain falling characters */
+}
+
+.line-effect-left, .line-effect-right {
+    position: absolute;
+    width: 2px; /* Thin line */
+    background: var(--line-effect-color);
+    z-index: -1; /* Above background, below content */
+    opacity: 0.7;
+    pointer-events: none;
+    animation: lineMove 15s infinite linear;
+}
+
+.line-effect-left {
+    left: 10%;
+    height: 120%; /* Extend beyond viewport */
+    top: -10%;
+    transform-origin: top;
+}
+
+.line-effect-right {
+    right: 10%;
+    height: 120%; /* Extend beyond viewport */
+    top: -10%;
+    animation-delay: 7s; /* Stagger animation */
+    transform-origin: top;
+}
+
+@keyframes lineMove {
+    0% { transform: translateY(0) scaleY(0.1); opacity: 0; }
+    25% { opacity: 0.5; }
+    50% { transform: translateY(100%) scaleY(1); opacity: 0.8; }
+    75% { opacity: 0.5; }
+    100% { transform: translateY(200%) scaleY(0.1); opacity: 0; }
+}
+
+
+/* Main Container Styling */
+.container {
+    width: 90%;
+    max-width: 900px; /* Max width for a comfortable chat experience */
+    height: 90vh; /* Responsive height */
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Hide overflow from rounded corners */
+    backdrop-filter: blur(8px); /* Frosted glass effect */
+    border: 1px solid var(--border-color);
+    position: relative;
+    z-index: 1; /* Above background effects */
+}
+
+/* Header Styling */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: rgba(255, 215, 0, 0.1); /* Slightly transparent accent */
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-button {
+    background: var(--button-bg);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    margin-left: 10px;
+}
+
+.header-button:hover {
+    background-color: var(--button-hover-bg);
+    color: var(--text-color);
+}
+
+.menu-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 40px;
+    height: 30px;
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+.menu-button .menu-line {
+    width: 25px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+    transition: background-color 0.3s ease;
+}
+
+.menu-button:hover .menu-line {
+    background-color: var(--text-color);
+}
+
+/* Chat Area Styling */
+.chat-area {
+    flex-grow: 1; /* Takes up available space */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto; /* Enable scrolling for chat messages */
+    position: relative; /* For avatar positioning */
+}
+
+.chat-display {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 10px; /* Space for scrollbar */
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.message-text {
+    background-color: var(--ai-message-bg);
+    padding: 12px 18px;
+    border-radius: 18px;
+    max-width: 75%;
+    font-size: 12px; /* Calibri font size 12 */
+    line-height: 1.4;
+    word-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 215, 0, 0.2); /* Subtle border */
+    color: var(--text-color);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.ai-message .avatar {
+    margin-right: 10px;
+}
+
+.user-message {
+    justify-content: flex-end; /* Align user messages to the right */
+}
+
+.user-message .avatar {
+    margin-left: 10px;
+    order: 2; /* Place avatar after text for right alignment */
+}
+
+.user-message .message-text {
+    background-color: var(--user-message-bg);
+    order: 1; /* Place text before avatar */
+    border: 1px solid rgba(0, 123, 255, 0.2); /* User message border color */
+}
+
+
+/* Code Block Styling (for future JS insertion) */
+.code-block {
+    background-color: rgba(0, 0, 0, 0.5); /* Slightly darker for contrast */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    overflow-x: auto; /* Enable horizontal scrolling for long code lines */
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* Monospaced font for code */
+    font-size: 11px; /* Slightly smaller for code readability */
+}
+
+.code-block pre {
+    margin: 0;
+    white-space: pre-wrap; /* Wrap long lines if needed */
+}
+
+/* Syntax Highlighting (placeholders - actual colors depend on highlighter library) */
+.code-block .keyword { color: #569CD6; } /* Blue */
+.code-block .string { color: #CE9178; } /* Orange */
+.code-block .comment { color: #6A9955; } /* Green */
+.code-block .number { color: #B5CEA8; } /* Light Green */
+.code-block .function { color: #DCDCAA; } /* Yellow */
+.code-block .operator { color: #D4D4D4; } /* White */
+
+
+/* Input Area Styling */
+.input-area {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--input-bg);
+    gap: 10px;
+}
+
+#messageInput {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: var(--text-color);
+    font-size: 12px; /* Calibri font size 12 */
+    resize: none; /* Disable manual resizing */
+    min-height: 20px; /* Single line */
+    max-height: 100px; /* Max height before scroll for Shift+Enter */
+    overflow-y: hidden; /* Hide scrollbar initially */
+    transition: all 0.2s ease-in-out;
+}
+
+#messageInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+.input-button {
+    background: var(--button-bg);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 50%; /* Make them round */
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+.input-button:hover {
+    background-color: var(--button-hover-bg);
+    color: var(--text-color);
+}
+
+.send-button {
+    font-size: 1.8em; /* Slightly larger for send button */
+    padding-left: 5px; /* Adjust arrow position */
+}
+
+/* Footer and Theme Switcher */
+.footer {
+    padding: 10px 20px;
+    border-top: 1px solid var(--border-color);
+    background-color: rgba(255, 215, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-switcher {
+    display: flex;
+    gap: 10px;
+}
+
+.theme-button {
+    background: var(--button-bg);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-button:hover, .theme-button.active {
+    background-color: var(--button-hover-bg);
+    color: var(--text-color);
+    border-color: var(--text-color);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        height: 95vh;
+        border-radius: 10px;
+    }
+
+    .header-button {
+        padding: 6px 10px;
+        font-size: 1em;
+    }
+
+    .menu-button {
+        width: 35px;
+        height: 25px;
+    }
+
+    .menu-button .menu-line {
+        width: 20px;
+        height: 2px;
+    }
+
+    .input-area {
+        padding: 10px 15px;
+    }
+
+    #messageInput {
+        padding: 10px 12px;
+    }
+
+    .input-button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2em;
+    }
+
+    .send-button {
+        font-size: 1.5em;
+    }
+
+    .theme-button {
+        padding: 4px 8px;
+        font-size: 0.8em;
+    }
+
+    .line-effect-left, .line-effect-right {
+        left: 5%;
+        right: 5%;
+    }
+}
