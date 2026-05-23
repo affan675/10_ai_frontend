@@ -202,10 +202,9 @@ You're free to use, modify, and distribute this project in your personal and com
 
 **Created with ❤️ by Affan**
 
-- 🌐 [Portfolio](your-portfolio-link)
-- 💼 [LinkedIn](your-linkedin-link)
-- 🐙 [GitHub](https://github.com/your-username)
-- 📧 [Email](mailto:your-email@example.com)
+- 🌐 [Portfolio](https://affan675.github.io/01_portfolio_v2/projects.html)
+- 🐙 [GitHub](https://github.com/affan675)
+- 📧 [Email](mailto:your-affan119@gmail.com)
 
 ---
 
