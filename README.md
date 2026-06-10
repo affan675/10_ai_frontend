@@ -150,13 +150,6 @@ nova/
 
 ---
 
-## 🎯 Live Demo
-
-> [Click here to view NOVA live](your-live-demo-link)
-> 
-> Or host it yourself on [GitHub Pages](https://pages.github.com/), [Vercel](https://vercel.com/), or [Netlify](https://www.netlify.com/)
-
----
 
 ## 🔮 Future Improvements
 
